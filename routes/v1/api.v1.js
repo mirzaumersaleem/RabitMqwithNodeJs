@@ -17,7 +17,18 @@ router.get('/bye', (req, res) => {
 	amqpManager.connect()
 		.then((channel) => {
 			amqpManager.sendMessageToQueue(channel, 'byequeue', 'Bye from RabbitMQ!');
-			res.status(200).json({status: 'okay'});
+			res.status(200).json({status: 'BYE'});
+		})
+		.catch((error) => {
+			res.status(400).json({error: error});
+		});
+});
+
+router.get('/greetings', (req, res) => {
+	amqpManager.connect()
+		.then((channel) => {
+			amqpManager.sendMessageToQueue(channel, 'greetings', 'Greeting queue calls');
+			res.status(200).json({status: 'greetings'});
 		})
 		.catch((error) => {
 			res.status(400).json({error: error});
